@@ -46,6 +46,11 @@ head(opuntia) #and for opuntia
 
 ```
 
+```{r, echo=FALSE, include=FALSE}
+library(ggmap)
+register_google(key = "")
+``` 
+
 
 
 ###Location: Where are the cacti?
@@ -63,6 +68,32 @@ map <- leaflet() %>%
   addCircleMarkers(lng=opuntia$cactus_lon, lat = opuntia$cactus_lat, radius = 5, color = "#DEAFD6") #add opuntia
 
 map #print
+
+
+library("ggmap")
+
+
+species <- all$species
+
+cali <- get_map(location = c(lon = -115.662, lat = 34.7825), zoom = 17, color="bw")
+
+sunset <- ggmap(cali)
+sunset <- sunset + 
+  geom_point(data=all, aes(x=cactus_lon, y=cactus_lat, colour=species, group=species), alpha = 3/10, size = 4) + 
+  labs(title = "A", x = "longitude", y = "latitude", color = "Species")
+sunset
+
+cali2 <- get_map(location = c(lon = -115.663, lat = 34.7825), zoom = 19, color="bw")
+
+sunset2 <- ggmap(cali2)
+sunset2 <- sunset2 + 
+  geom_point(data=all, aes(x=cactus_lon, y=cactus_lat, colour=species, group=species), alpha = 3/10, size = 4) + 
+  labs(title = "B", x = "longitude", y = "latitude", color = "Species")
+sunset2
+
+
+
+
 
 ```
 
@@ -163,7 +194,7 @@ ggplot(size_class_options, aes(x = species, y=bins)) +
 #What is the distribution of health index scores?
 
 ggplot(all, aes(x = health_index)) +
-  geom_histogram() + labs(title = "Health of Cacti", x = "Number of individuals in each health class by species", y = "Health class") +
+  geom_histogram() + labs(title = "Number of individuals in each health class", x = "Heath of Species", y = "Health class") +
   facet_grid(~species) +
   theme_minimal()
 
