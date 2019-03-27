@@ -30,6 +30,7 @@ library(tidyverse)
 library(leaflet)
 library(dplyr)
 
+
 #bring in data
 cholla <- read_csv("~/Masters/BCDM_baseline_cactus_survey/baseline_cactus_size_cholla.csv")
 opuntia <- read_csv("~/Masters/BCDM_baseline_cactus_survey/baseline_cactus_size_opuntia_basilaris.csv")
@@ -197,6 +198,25 @@ ggplot(all, aes(x = health_index)) +
   geom_histogram() + labs(title = "Number of individuals in each health class", x = "Heath of Species", y = "Health class") +
   facet_grid(~species) +
   theme_minimal()
+
+```
+
+```{r Health statistics, warning=FALSE}
+
+
+myFreqs <- all %>% 
+  group_by(health_index, species) %>%
+  summarise(Freq = n())
+myFreqs #get counts into dataframe
+chi <- spread(myFreqs, health_index, Freq) #make it matrix
+chi$'<NA>' = NULL #extra column
+chi <- chi[-c(4), ] #extra row
+chi<- chi %>% column_to_rownames(var="species") #compatable with chi. Without this, species names are not numeric and mess up calculation
+chi
+
+chisq <- chisq.test(chi) #chi-square independence test
+chisq #statistically different
+
 
 ```
 
