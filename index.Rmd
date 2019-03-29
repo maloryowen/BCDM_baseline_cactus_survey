@@ -110,8 +110,8 @@ sunset2
 tapply(all$z, all$species, mean) #means height of each species
 
 ggplot(all, aes(x = species, y=z)) +
-  geom_boxplot() + labs(title = "Size of Cacti", x = "Species", y = "Height in meters") +
-  theme_minimal() #no outliers
+  geom_boxplot() + labs(x = "Species", y = "Height in meters") +
+  theme_minimal(base_size = 22)  #no outliers
 
 ```
 
@@ -195,9 +195,9 @@ ggplot(size_class_options, aes(x = species, y=bins)) +
 #What is the distribution of health index scores?
 
 ggplot(all, aes(x = health_index)) +
-  geom_histogram() + labs(title = "Number of individuals in each health class", x = "Heath of Species", y = "Health class") +
+  geom_histogram() + labs(title = "Number of individuals in each health class", x = "Health of Species", y = "Health class") +
   facet_grid(~species) +
-  theme_minimal()
+  theme_minimal(base_size=25)
 
 ```
 
